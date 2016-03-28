@@ -2064,6 +2064,11 @@ nacl.setPRNG = function(fn) {
   // Initialize PRNG if environment provides CSPRNG.
   // If not, methods calling randombytes will throw.
   var crypto = typeof self !== 'undefined' ? (self.crypto || self.msCrypto || self.cryptoShim) : null;
+  
+  if(crypto && !crypto.getRandomValues && self.cryptoShim){
+	  crypto = self.cryptoShim;
+  }
+  
   if (crypto && crypto.getRandomValues) {
     // Browsers.
     var QUOTA = 65536;
@@ -2085,7 +2090,8 @@ nacl.setPRNG = function(fn) {
         cleanup(v);
       });
     }
-  }
+  } 
+  
 })();
 
 })(typeof module !== 'undefined' && module.exports ? module.exports : (self.nacl = self.nacl || {}));
