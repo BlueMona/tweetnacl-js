@@ -1,4 +1,5 @@
 var nacl = (typeof window !== 'undefined') ? window.nacl : require('../' + (process.env.NACL_SRC || 'nacl.min.js'));
+nacl.util = require('tweetnacl-util');
 var test = require('tape');
 
 test('nacl.randomBytes', function(t) {
@@ -7,7 +8,7 @@ test('nacl.randomBytes', function(t) {
   for (i = 0; i < 10000; i++) {
     s = nacl.util.encodeBase64(nacl.randomBytes(32));
     if (set[s]) {
-      t.fail("duplicate random sequence! ", s);
+      t.fail('duplicate random sequence! ', s);
       return;
     }
     set[s] = true;
