@@ -2063,11 +2063,7 @@ nacl.setPRNG = function(fn) {
 (function() {
   // Initialize PRNG if environment provides CSPRNG.
   // If not, methods calling randombytes will throw.
-  var crypto = typeof self !== 'undefined' ? (self.crypto || self.msCrypto || self.cryptoShim) : null;
-  
-  if(crypto && !crypto.getRandomValues && self.cryptoShim){
-	  crypto = self.cryptoShim;
-  }
+  var crypto = typeof self !== 'undefined' ? (self.cryptoShim ||self.crypto || self.msCrypto) : null;
   
   if (crypto && crypto.getRandomValues) {
     // Browsers.
